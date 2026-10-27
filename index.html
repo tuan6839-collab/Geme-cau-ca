@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuizMath – Đề số 13</title>
+<style>
+:root{--bg:#f3f6fc;--card:#fff;--ink:#17233d;--blue:#2457d6;--green:#13804a;--red:#bd3030}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,#173b8e,#4779ef);color:white;padding:24px 16px;text-align:center}
+header h1{margin:0 0 8px;font-size:clamp(23px,4vw,34px)}header p{margin:0;opacity:.92}
+main{max-width:900px;margin:20px auto;padding:0 14px}.panel,.qcard{background:var(--card);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 5px 18px #1b3c7210}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:1}
+button{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer;background:var(--blue);color:#fff}
+button.secondary{background:#e7edff;color:#1d419f}button:disabled{opacity:.45;cursor:not-allowed}
+.progress{height:9px;background:#e2e8f5;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:#28a36a;transition:width .2s}
+.small{color:#64718a;font-size:14px}.qtitle{font-size:18px;font-weight:700;line-height:1.5}.options{display:grid;gap:9px;margin-top:14px}
+.option{display:flex;gap:10px;align-items:flex-start;border:1px solid #dce3f0;border-radius:10px;padding:12px;cursor:pointer;background:white}.option:has(input:checked){border-color:var(--blue);background:#f0f4ff}
+.option input{margin-top:4px}.feedback{margin-top:12px;padding:12px;border-radius:10px;line-height:1.5}.correct{background:#e7f7ee;color:#125e37}.wrong{background:#fff0f0;color:#8d2020}
+.hidden{display:none}.score{font-size:28px;font-weight:800}.tag{display:inline-block;background:#e8edff;color:#2348aa;padding:5px 9px;border-radius:99px;font-size:12px;font-weight:700}
+footer{text-align:center;padding:16px;color:#64718a;font-size:12px}
+</style></head>
+<body>
+<header><h1>🎯 QuizMath – Đề số 13</h1><p>Trò chơi ôn tập Toán THPT • Chọn đáp án, nhận phản hồi và xem lời giải</p></header>
+<main>
+<section class="panel" id="start">
+ <div class="row"><div><span class="tag">CHẾ ĐỘ TRÒ CHƠI</span><h2>Thử thách kiến thức</h2><p>Trả lời các câu trắc nghiệm đã trích xuất được từ PDF. Mỗi câu đúng được 10 điểm.</p><p class="small">Lưu ý: PDF gốc có hình và công thức; một số nội dung cần kiểm tra lại bằng bản rõ hơn. Câu 9 được tạm để ngoài lượt chơi vì chưa xác định chắc đáp án từ hình khối.</p></div>
+ <div><label for="player">Tên học sinh</label><input id="player" placeholder="Nhập tên..." style="width:100%;padding:12px;border:1px solid #ccd5e5;border-radius:10px;margin:8px 0 14px"><button onclick="startGame()" style="width:100%">Bắt đầu chơi ▶</button></div></div>
+</section>
+<section class="panel hidden" id="game">
+ <div class="row"><div><b id="playerLabel">Học sinh</b><div class="small" id="counter"></div></div><div style="text-align:right"><span class="tag">ĐIỂM</span><div class="score" id="score">0</div></div></div>
+ <div class="progress"><div class="bar" id="bar"></div></div>
+ <div id="question"></div>
+ <div class="row" style="margin-top:16px"><button class="secondary" id="skip" onclick="skipQuestion()">Bỏ qua</button><button id="check" onclick="checkAnswer()">Chốt đáp án</button><button id="next" class="hidden" onclick="nextQuestion()">Câu tiếp theo →</button></div>
+</section>
+<section class="panel hidden" id="result"><h2>🏆 Kết quả</h2><p id="resultText"></p><div class="score" id="finalScore"></div><p id="remark"></p><button onclick="review()">Xem lại đáp án</button> <button class="secondary" onclick="location.reload()">Chơi lại ↻</button><div id="reviewList"></div></section>
+<section class="panel"><h3>Đáp án tham khảo đã xác định</h3><p><b>Phần I:</b> 1.B · 2.A · 3.A (theo đối chiếu vectơ) · 4.C · 5.C · 6.C · 7.A · 8.C · 9. Chưa chốt · 10.B · 11.D · 12.A</p><p class="small">Đáp án 10: bảng dấu cho thấy cực tiểu tại x = −1 và x = 2, nên có 2 điểm cực tiểu. Câu 11: tháng 10 nhận 7 + 9×0,3 = 9,7 triệu đồng; do đó đáp án D. Danh sách trên đang rà soát và phần câu 11 được cập nhật theo phép tính.</p></section>
+</main><footer>QuizMath • Dùng trực tiếp trên trình duyệt máy tính, máy tính bảng hoặc điện thoại.</footer>
+<script>
+const qs=[
+{n:1,t:"Cấp số nhân có u₁ = 3; u₆ = −96. Số hạng thứ năm u₅ bằng?",o:["A. −24","B. 48","C. −48","D. 32"],a:1,e:"u₆ = u₁q⁵ ⇒ q⁵ = −32 ⇒ q = −2. Vậy u₅ = 3(−2)⁴ = 48."},
+{n:2,t:"Thời gian truy cập Internet (phút) có các lớp [9,5;12,5), [12,5;15,5), [15,5;18,5), [18,5;21,5), [21,5;24,5) với tần số 3, 12, 15, 24, 2. Tứ phân vị thứ nhất Q₁ là?",o:["A. 15,25","B. 14","C. 18,1","D. 12,5"],a:0,e:"N = 56, vị trí Q₁ là N/4 = 14. Lớp chứa Q₁ là lớp thứ hai: Q₁ = 12,5 + ((14−3)/12)×3 = 15,25."},
+{n:3,t:"Trong tứ diện ABCD, I, J lần lượt là trung điểm AB và CD. Đẳng thức vectơ nào sai?",o:["A. IJ = ½(CD + AD + DB)","B. IJ = ½(DC + AD + BD)","C. IJ = ½(AC + BD)","D. IJ = ½(AD + BC)"],a:0,e:"Vectơ IJ = ½(AC + BD) = ½(AD + BC) = ½(DC + AD + BD). Biểu thức A không tương đương với các biểu thức này."},
+{n:4,t:"G(x) = 0,035x²(15 − x), với x là liều thuốc (mg). Liều thuốc để G(x) lớn nhất là?",o:["A. x = 10","B. x = 15","C. x = 8","D. x = 7"],a:0,e:"G'(x) = 0,035x(30 − 3x). Điểm cực đại dương là x = 10 mg."},
+{n:5,t:"Hộp có 5 quả cầu xanh và 3 quả cầu đỏ. Chọn ngẫu nhiên 2 quả. Xác suất hai quả cùng màu là?",o:["A. 1/2","B. 10/28","C. 13/28","D. 3/28"],a:2,e:"P = [C(5,2)+C(3,2)]/C(8,2) = (10+3)/28 = 13/28."},
+{n:6,t:"Tập nghiệm của bất phương trình log cơ số 0,5 của (3x − 2) > 0 là?",o:["A. (−∞;1)","B. (0;1)","C. (2/3;1)","D. (1;+∞)"],a:2,e:"Vì cơ số 0,5 thuộc (0;1), log₀,₅(y)>0 tương đương 0<y<1. Do đó 0<3x−2<1, suy ra 2/3<x<1."},
+{n:7,t:"Con lắc dao động s = 2√2 cos(7t + π/3). Trong khoảng 0 đến 30 giây, con lắc đi qua vị trí cân bằng bao nhiêu lần?",o:["A. 67","B. 68","C. 66","D. 65"],a:0,e:"Vị trí cân bằng khi cos(7t+π/3)=0. Suy ra t=(π/6+kπ)/7 với k nguyên không âm. Điều kiện t≤30 cho k=0,…,66, tổng cộng 67 lần."},
+{n:8,t:"Trong không gian Oxyz, điểm đối xứng của M(1;−2;3) qua trục Oy là?",o:["A. (1;2;3)","B. (1;0;3)","C. (−1;−2;−3)","D. (0;−2;0)"],a:2,e:"Đối xứng qua trục Oy giữ nguyên tung độ y và đổi dấu x, z. Điểm ảnh là (−1;−2;−3)."},
+{n:10,t:"Bảng dấu f′(x): âm trên (−∞;−1), dương trên (−1;0), âm trên (0;1) và dương trên (1;+∞), với f′ không xác định tại 1; tại x=2 f′=0 nhưng không đổi dấu. Số điểm cực tiểu của hàm số là?",o:["A. 4","B. 2","C. 1","D. 3"],a:1,e:"f′ đổi dấu từ âm sang dương tại x=−1 và x=1 (nếu hàm số liên tục tại 1 và điểm đó thuộc miền xác định). Theo bảng dấu đề cho, có hai vị trí đổi từ âm sang dương."},
+{n:11,t:"Tháng đầu tiên lương anh Nam là 7 triệu đồng; từ tháng thứ hai, mỗi tháng tăng 300 nghìn đồng so với tháng trước. Lương tháng thứ 10 là?",o:["A. 10 triệu","B. 9,4 triệu","C. 9,1 triệu","D. 9,7 triệu"],a:3,e:"Đây là cấp số cộng: a₁=7, d=0,3. a₁₀=7+9×0,3=9,7 triệu đồng."},
+{n:12,t:"Tứ diện OABC có OA, OB, OC đôi một vuông góc; OB = OC = a√6, OA = a√3. Tính số đo góc nhị diện [A, BC, O].",o:["A. 45°","B. 30°","C. 90°","D. 60°"],a:0,e:"Đặt O=(0,0,0), A=(a√3,0,0), B=(0,a√6,0), C=(0,0,a√6). Mặt phẳng (OBC) có pháp tuyến theo trục Ox; pháp tuyến của (ABC) tỉ lệ với (1/√3,1/√6,1/√6). Cos góc giữa hai mặt phẳng bằng 1/√2, nên góc nhị diện bằng 45°."}
+];
+let idx=0,score=0,answered=false,answers=[];
+function startGame(){document.getElementById('start').classList.add('hidden');document.getElementById('game').classList.remove('hidden');document.getElementById('playerLabel').textContent=document.getElementById('player').value.trim()||'Học sinh';render()}
+function render(){answered=false;let q=qs[idx];document.getElementById('counter').textContent=`Câu ${idx+1}/${qs.length}`;document.getElementById('bar').style.width=(idx/qs.length*100)+'%';document.getElementById('question').innerHTML=`<div class="qtitle">Câu ${q.n}. ${q.t}</div><div class="options">${q.o.map((v,i)=>`<label class="option"><input type="radio" name="ans" value="${i}"><span>${v}</span></label>`).join('')}</div><div id="feedback"></div>`;document.getElementById('check').classList.remove('hidden');document.getElementById('next').classList.add('hidden');document.getElementById('skip').disabled=false}
+function checkAnswer(){if(answered)return;let s=document.querySelector('input[name="ans"]:checked');if(!s){alert('Em hãy chọn một đáp án nhé!');return}let q=qs[idx],a=+s.value;answered=true;answers[idx]=a;let ok=a===q.a;if(ok)score+=10;document.getElementById('score').textContent=score;document.getElementById('feedback').innerHTML=`<div class="feedback ${ok?'correct':'wrong'}"><b>${ok?'Chính xác! +10 điểm 🎉':'Chưa chính xác.'}</b><br>Đáp án: <b>${q.o[q.a]}</b><br>${q.e}</div>`;document.querySelectorAll('input[name="ans"]').forEach(x=>x.disabled=true);document.getElementById('check').classList.add('hidden');document.getElementById('next').classList.remove('hidden');document.getElementById('skip').disabled=true}
+function skipQuestion(){answers[idx]=null;nextQuestion()}
+function nextQuestion(){idx++;if(idx>=qs.length){document.getElementById('game').classList.add('hidden');document.getElementById('result').classList.remove('hidden');document.getElementById('bar').style.width='100%';let name=document.getElementById('playerLabel').textContent;document.getElementById('resultText').textContent=`${name}, em đã hoàn thành ${qs.length} câu.`;document.getElementById('finalScore').textContent=`${score}/${qs.length*10} điểm`;document.getElementById('remark').textContent=score>=90?'Xuất sắc!':score>=70?'Làm tốt lắm, hãy xem lại câu sai nhé!':'Cố gắng ôn lại lời giải rồi thử lần nữa nhé!';return}render()}
+function review(){let el=document.getElementById('reviewList');el.innerHTML='<h3>Đáp án và lời giải</h3>'+qs.map((q,i)=>`<div class="qcard"><b>Câu ${q.n}.</b> ${q.t}<p><b>Đáp án: ${q.o[q.a]}</b> ${answers[i]===q.a?'✓':'—'}</p><p>${q.e}</p></div>`).join('')}
+</script></body></html>
